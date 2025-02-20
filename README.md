@@ -1,3 +1,7 @@
+This repo is a drop-in copy from [packages/apps/composer-app](https://github.com/dxos/dxos/tree/main/packages/apps/composer-app) from the `main` branch of [dxos](https://github.com/dxos/dxos).
+
+See the `Migration-notes.md` file for the steps taken in the first couple of commits in this repo.
+
 ## Development
 
 To run the app with HALO.
