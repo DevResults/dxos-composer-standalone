@@ -1,0 +1,17 @@
+# Generated
+public/assets/
+public/icons.svg
+
+# iOS profiles
+profiles/
+
+trace.zip
+
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.log*
+
+node_modules/

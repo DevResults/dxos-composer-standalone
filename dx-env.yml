@@ -1,0 +1,43 @@
+LOG_FILTER:
+  path: runtime.client.log.filter
+  type: string
+
+LOG_PREFIX:
+  path: runtime.client.log.prefix
+  type: string
+
+REMOTE_SOURCE:
+  path: runtime.client.remoteSource
+  type: string
+
+AGENT_HOSTING_TYPE:
+  path: runtime.services.agentHosting.type
+  type: string
+
+AGENT_HOSTING_SERVER:
+  path: runtime.services.agentHosting.server
+  type: string
+
+IPFS_API_SECRET:
+  path: runtime.services.ipfs.serverAuthSecret
+  type: string
+
+DX_OTEL_ENDPOINT:
+  path: runtime.app.env.DX_OTEL_ENDPOINT
+  type: string
+
+DX_OTEL_AUTHORIZATION:
+  path: runtime.app.env.DX_OTEL_AUTHORIZATION
+  type: string
+
+DX_EDGE_BASE_URL:
+  path: runtime.services.edge.url
+  type: string
+
+DX_EDGE_ECHO_REPLICATOR:
+  path: runtime.client.edgeFeatures.echoReplicator
+  type: boolean
+
+DX_EDGE_FEED_REPLICATOR:
+  path: runtime.client.edgeFeatures.feedReplicator
+  type: boolean
