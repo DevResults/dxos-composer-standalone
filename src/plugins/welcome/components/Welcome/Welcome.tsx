@@ -7,7 +7,7 @@ import '@fontsource/poiret-one';
 import { CaretRight, Key, Planet, QrCode } from '@phosphor-icons/react';
 import React, { useCallback, useRef, useState } from 'react';
 
-import { DXOSHorizontalType } from '@dxos/brand';
+// import { DXOSHorizontalType } from '@dxos/brand';
 import { Button, Input, useTranslation, Dialog } from '@dxos/react-ui';
 import { getSize, mx } from '@dxos/react-ui-theme';
 import { CompoundButton } from '@dxos/shell/react';
@@ -158,7 +158,7 @@ export const Welcome = ({
               <a href='https://dxos.org' target='_blank' rel='noreferrer'>
                 <div className='flex justify-center items-center text-sm gap-1 pr-3 pb-1 opacity-70'>
                   <span className='text-subdued'>Powered by</span>
-                  <DXOSHorizontalType className='fill-white w-[80px]' />
+                  {/* <DXOSHorizontalType className='fill-white w-[80px]' /> */}
                 </div>
               </a>
             </div>

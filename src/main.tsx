@@ -28,10 +28,6 @@ const main = async () => {
 
   const { defs, SaveConfig } = await import('@dxos/config');
   const { createClientServices } = await import('@dxos/react-client');
-  const { Migrations } = await import('@dxos/migrations');
-  const { __COMPOSER_MIGRATIONS__ } = await import('./migrations');
-
-  Migrations.define(appKey, __COMPOSER_MIGRATIONS__);
 
   // Namespace for global Composer test & debug hooks.
   (window as any).composer = {};
