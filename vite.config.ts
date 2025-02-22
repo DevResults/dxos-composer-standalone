@@ -11,10 +11,12 @@ import WasmPlugin from 'vite-plugin-wasm';
 
 import { ConfigPlugin } from '@dxos/config/vite-plugin';
 import { ThemePlugin } from '@dxos/react-ui-theme/plugin';
-// import { IconsPlugin } from '@dxos/vite-plugin-icons';
+import { IconsPlugin } from '@ch-ui/vite-plugin-icons';
 
-const rootDir = resolve(__dirname, '../../..');
-// const phosphorIconsCore = join(rootDir, '/node_modules/@phosphor-icons/core/assets');
+const rootDir = __dirname;
+const phosphorIconsCore = join(rootDir, '/node_modules/@phosphor-icons/core/assets');
+
+const contentExtensions = '{js,mjs,ts,jsx,tsx,md,css,pcss,html}'
 
 const isTrue = (str?: string) => str === 'true' || str === '1';
 const isFalse = (str?: string) => str === 'false' || str === '0';
@@ -86,19 +88,23 @@ export default defineConfig((env) => ({
         join(__dirname, './index.html'),
         join(__dirname, './src/**/*.{js,ts,jsx,tsx}'),
         join(__dirname, 'node_modules/@dxos/**/*.{js,ts,jsx,tsx}'),
+        join(__dirname, 'node_modules/.vite/deps/chunk-*.js'),
       ],
     }),
-    // IconsPlugin({
-    //   symbolPattern: 'ph--([a-z]+[a-z-]*)--(bold|duotone|fill|light|regular|thin)',
-    //   assetPath: (name, variant) =>
-    //     `${phosphorIconsCore}/${variant}/${name}${variant === 'regular' ? '' : `-${variant}`}.svg`,
-    //   spriteFile: 'icons.svg',
-    //   contentPaths: [
-    //     join(rootDir, '/{packages,tools}/**/dist/**/*.{mjs,html}'),
-    //     join(rootDir, '/{packages,tools}/**/src/**/*.{ts,tsx,js,jsx,css,md,html}'),
-    //   ],
-    //   // verbose: true,
-    // }),
+    IconsPlugin({
+      symbolPattern: 'ph--([a-z]+[a-z-]*)--(bold|duotone|fill|light|regular|thin)',
+      assetPath: (name, variant) =>
+        `${phosphorIconsCore}/${variant}/${name}${variant === 'regular' ? '' : `-${variant}`}.svg`,
+      spriteFile: 'icons.svg',
+      contentPaths: [
+        join(__dirname, 'index.html'),
+        join(__dirname, `src/**/*.${contentExtensions}`),
+        join(__dirname, `node_modules/@dxos/**/*.${contentExtensions}`),
+        join(__dirname, `node_modules/.pnpm/**/@dxos/**/*.${contentExtensions}`),
+        join(__dirname, `node_modules/.vite/deps/chunk-*.${contentExtensions}`),
+      ],
+      // verbose: true,
+    }),
     WasmPlugin(),
     ReactPlugin({
       plugins: [
