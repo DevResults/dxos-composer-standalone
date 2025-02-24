@@ -93,7 +93,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.18.13",
-    "@ch-ui/vite-plugin-icons": "1.0.2",
+    "@ch-ui/vite-plugin-icons": "1.0.3",
     "@cloudflare/workers-types": "^4.20241018.0",
     "@dxos/app-graph": "0.7.5-main.e9bb01b",
     "@dxos/debug": "0.7.5-main.e9bb01b",

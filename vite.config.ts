@@ -24,22 +24,8 @@ const isFalse = (str?: string) => str === 'false' || str === '0';
 // https://vitejs.dev/config
 export default defineConfig((env) => ({
   server: {
-    host: true,
-    https:
-      process.env.HTTPS === 'true'
-        ? {
-            key: './key.pem',
-            cert: './cert.pem',
-          }
-        : undefined,
     fs: {
       strict: false,
-      cachedChecks: false,
-      allow: [
-        // TODO(wittjosiah): Not detecting pnpm-workspace?
-        //   https://vitejs.dev/config/server-options.html#server-fs-allow
-        searchForWorkspaceRoot(process.cwd()),
-      ],
     },
   },
   esbuild: {
@@ -50,24 +36,9 @@ export default defineConfig((env) => ({
     minify: !isFalse(process.env.DX_MINIFY),
     target: ['chrome89', 'edge89', 'firefox89', 'safari15'],
     rollupOptions: {
-      // NOTE: Set cache to `false` to help debug flaky builds.
-      // cache: false,
       input: {
         main: resolve(__dirname, './index.html'),
       },
-      output: {
-        chunkFileNames,
-        manualChunks: {
-          react: ['react', 'react-dom'],
-        },
-      },
-      external: [
-        // Provided at runtime by socket supply shell.
-        'socket:application',
-        'socket:process',
-        'socket:window',
-        'socket:os',
-      ],
     },
   },
   resolve: {
@@ -100,14 +71,14 @@ export default defineConfig((env) => ({
         join(__dirname, 'index.html'),
         join(__dirname, `src/**/*.${contentExtensions}`),
         join(__dirname, `node_modules/@dxos/**/*.${contentExtensions}`),
-        join(__dirname, `node_modules/.pnpm/**/@dxos/**/*.${contentExtensions}`),
-        join(__dirname, `node_modules/.vite/deps/chunk-*.${contentExtensions}`),
+        join(__dirname, `node_modules/.vite/deps/*.${contentExtensions}`),
       ],
       // verbose: true,
     }),
     WasmPlugin(),
     ReactPlugin({
       plugins: [
+        // TODO(wittjosiah): This isn't published yet.
         // [
         //   '@dxos/swc-log-plugin',
         //   {
@@ -141,6 +112,7 @@ export default defineConfig((env) => ({
         // ],
       ],
     }),
+    // TODO(wittjosiah): This plugin wasn't working for some reason. Add back in.
     // VitePWA({
     //   // No PWA for e2e tests because it slows them down (especially waiting to clear toasts).
     //   // No PWA in dev to make it easier to ensure the latest version is being used.
@@ -184,26 +156,5 @@ export default defineConfig((env) => ({
     //     ],
     //   },
     // }),
-  ], // Plugins
+  ],
 }));
-
-/**
- * Generate nicer chunk names.
- * Default makes most chunks have names like index-[hash].js.
- */
-function chunkFileNames(chunkInfo: any) {
-  if (chunkInfo.facadeModuleId && chunkInfo.facadeModuleId.match(/index.[^\/]+$/gm)) {
-    let segments: any[] = chunkInfo.facadeModuleId.split('/').reverse().slice(1);
-    const nodeModulesIdx = segments.indexOf('node_modules');
-    if (nodeModulesIdx !== -1) {
-      segments = segments.slice(0, nodeModulesIdx);
-    }
-    const ignoredNames = ['dist', 'lib', 'browser'];
-    const significantSegment = segments.find((segment) => !ignoredNames.includes(segment));
-    if (significantSegment) {
-      return `assets/${significantSegment}-[hash].js`;
-    }
-  }
-
-  return 'assets/[name]-[hash].js';
-}
