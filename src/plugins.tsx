@@ -6,12 +6,10 @@ import { INTENT_PLUGIN, IntentPlugin, SETTINGS_PLUGIN, SettingsPlugin } from '@d
 import { type Config, type ClientServicesProvider } from '@dxos/client';
 import { type Observability } from '@dxos/observability';
 import { AttentionPlugin, ATTENTION_PLUGIN } from '@dxos/plugin-attention';
-import { AutomationPlugin } from '@dxos/plugin-automation';
 import { CallsPlugin } from '@dxos/plugin-calls';
 import { CanvasPlugin } from '@dxos/plugin-canvas';
 import { ChessPlugin } from '@dxos/plugin-chess';
 import { ClientPlugin, CLIENT_PLUGIN } from '@dxos/plugin-client';
-import { DebugPlugin, DEBUG_PLUGIN } from '@dxos/plugin-debug';
 import { DeckPlugin, DECK_PLUGIN } from '@dxos/plugin-deck';
 import { ExcalidrawPlugin } from '@dxos/plugin-excalidraw';
 import { ExplorerPlugin } from '@dxos/plugin-explorer';
@@ -28,7 +26,7 @@ import { NavTreePlugin, NAVTREE_PLUGIN } from '@dxos/plugin-navtree';
 import { ObservabilityPlugin, OBSERVABILITY_PLUGIN } from '@dxos/plugin-observability';
 import { OutlinerPlugin } from '@dxos/plugin-outliner';
 import { PresenterPlugin } from '@dxos/plugin-presenter';
-import { PwaPlugin, PWA_PLUGIN } from '@dxos/plugin-pwa';
+// import { PwaPlugin, PWA_PLUGIN } from '@dxos/plugin-pwa';
 import { RegistryPlugin, REGISTRY_PLUGIN } from '@dxos/plugin-registry';
 import { ScriptPlugin } from '@dxos/plugin-script';
 import { SearchPlugin } from '@dxos/plugin-search';
@@ -76,7 +74,7 @@ export const core = ({ isPwa, isSocket }: PluginConfig): string[] =>
     isSocket && NATIVE_PLUGIN,
     NAVTREE_PLUGIN,
     OBSERVABILITY_PLUGIN,
-    !isSocket && isPwa && PWA_PLUGIN,
+    // !isSocket && isPwa && PWA_PLUGIN,
     REGISTRY_PLUGIN,
     SETTINGS_PLUGIN,
     SPACE_PLUGIN,
@@ -90,7 +88,6 @@ export const core = ({ isPwa, isSocket }: PluginConfig): string[] =>
 export const defaults = ({ isDev }: PluginConfig): string[] =>
   [
     // prettier-ignore
-    isDev && DEBUG_PLUGIN,
     MARKDOWN_PLUGIN,
     SHEET_PLUGIN,
     SKETCH_PLUGIN,
@@ -102,27 +99,12 @@ export const defaults = ({ isDev }: PluginConfig): string[] =>
 export const plugins = ({ appKey, config, services, observability, isDev, isPwa, isSocket }: PluginConfig) =>
   [
     AttentionPlugin(),
-    AutomationPlugin(),
     CallsPlugin(),
     CanvasPlugin(),
     ChessPlugin(),
     ClientPlugin({
       config,
       services,
-      onClientInitialized: async (_, client) => {
-        const { LegacyTypes } = await import('./migrations');
-        client.addTypes([
-          LegacyTypes.DocumentType,
-          LegacyTypes.FileType,
-          LegacyTypes.FolderType,
-          LegacyTypes.MessageType,
-          LegacyTypes.SectionType,
-          LegacyTypes.StackType,
-          LegacyTypes.TableType,
-          LegacyTypes.TextType,
-          LegacyTypes.ThreadType,
-        ]);
-      },
       onReset: ({ target }) => {
         localStorage.clear();
 
@@ -135,7 +117,6 @@ export const plugins = ({ appKey, config, services, observability, isDev, isPwa,
         }
       },
     }),
-    DebugPlugin(),
     DeckPlugin(),
     ExcalidrawPlugin(),
     ExplorerPlugin(),
@@ -153,7 +134,7 @@ export const plugins = ({ appKey, config, services, observability, isDev, isPwa,
     ObservabilityPlugin({ namespace: appKey, observability: () => observability }),
     OutlinerPlugin(),
     PresenterPlugin(),
-    !isSocket && isPwa && PwaPlugin(),
+    // !isSocket && isPwa && PwaPlugin(),
     RegistryPlugin(),
     ScriptPlugin(),
     SearchPlugin(),
